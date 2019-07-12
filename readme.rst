@@ -14,4 +14,8 @@
 
 5) Create your database in Mysql with the file database.sql
 
+
+
+6)Open with browser Request.html
+
 `
