@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Mes Demandes</title>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Mes Demandes</a>
+    </nav>
+<div>
+    <input type="button" id="btnPrev" value="Previous">
+    <input type="button" id="btnNext" value="Next">
+</div>
+</header>
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Titre</th>
+            <th id="titre" scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th  scope="row">Description</th>
+            <td id="description"></td>
+        </tr>
+        <tr>
+            <th scope="row">Budget</th>
+            <td id="budget">Jacob</td>
+
+        </tr>
+        <tr>
+            <th scope="row">Date de création</th>
+            <td id="created"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer>
+    <div class="p-4  bg-dark  text-white">
+        <a href="https://github.com/romain44117">GitHub</a>
+    </div>
+</footer>
+<script>
+    const title=document.getElementById('titre');
+    const create=document.getElementById('created');
+    const budget=document.getElementById('budget');
+    const description = document.getElementById('description');
+    let dataFetch;
+
+    fetch('http://localhost:8000/')
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+            dataFetch=data;
+            title.innerHTML=`${dataFetch[0].title}`;
+            description.innerHTML=`${dataFetch[0].description}`;
+            budget.innerHTML=`${dataFetch[0].budget}`;
+            create.innerHTML=`${new Date(dataFetch[0].created_at).toISOString().replace(/T.*/, '').split('-').reverse().join('-')}`;
+
+            let page = 0;
+            let pageCount = dataFetch.length;
+
+            document.getElementById("btnPrev").onclick = function() {
+
+                if(0 < page) {
+                    page  -= 1;
+                    title.innerHTML = `${dataFetch[page].title}`;
+                    description.innerHTML = `${dataFetch[page].description}`;
+                    budget.innerHTML = `${dataFetch[page].budget}`;
+                    create.innerHTML = `${new Date(dataFetch[page].created_at).toISOString().replace(/T.*/, '').split('-').reverse().join('-')}`;
+                }
+            };
+            document.getElementById("btnNext").onclick = function() {
+                if(page<(pageCount-1)){
+                    page+=1;
+                    title.innerHTML=`${dataFetch[page].title}`;
+                    description.innerHTML=`${dataFetch[page].description}`;
+                    budget.innerHTML=`${dataFetch[page].budget}`;
+                    create.innerHTML=`${new Date(dataFetch[page].created_at).toISOString().replace(/T.*/, '').split('-').reverse().join('-')}`;
+                }
+            };
+        })
+</script>
+</body>
+</html>
