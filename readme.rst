@@ -2,7 +2,7 @@
 
 1) Clone the project
 
-2) git checkout on dev branch 
+2) git checkout develop 
 
 3) Modify your " $config['base_url'] " in application/config/config.php.
 	
